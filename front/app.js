@@ -8,7 +8,7 @@ window.onload = connect;
 
 const stompClient = new StompJs.Client({
     //brokerURL: 'ws://localhost:8080/chat'
-    brokerURL: 'ws://192.168.1.7:8080/chat'
+    brokerURL: 'ws://localhost:8080/chat'
 });
 
 stompClient.onConnect = (frame) => {
