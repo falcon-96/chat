@@ -7,7 +7,8 @@ document.addEventListener('submit', clearInput);
 window.onload = connect;
 
 const stompClient = new StompJs.Client({
-    brokerURL: 'ws://localhost:8080/chat'
+    //brokerURL: 'ws://localhost:8080/chat'
+    brokerURL: 'ws://192.168.1.7:8080/chat'
 });
 
 stompClient.onConnect = (frame) => {
@@ -68,7 +69,6 @@ function sendConnectedUser() {
         'messageType': 'user',
         'original': uname
     };
-    console.log(body1);
     stompClient.publish({
         destination: "/app/users",
         body: JSON.stringify(body1)
@@ -84,7 +84,6 @@ function disconnect() {
         'messageType': 'user',
         'original': uname
     };
-    console.log(body1);
     stompClient.publish({
         destination: "/app/users",
         body: JSON.stringify(body1)
@@ -98,7 +97,7 @@ function disconnect() {
 function showGreeting(message) {
 
     if (message.from == uname) {
-        $("#boot-card").append('<p id="chat-text" style="text-align: right"><span class="ind-chat-box">' + message.from + ": " + message.text + '<br><span>' + message.time + "</span></span></p><br>");
+        $("#boot-card").append('<p id="chat-text" style="text-align: right"><span class="ind-chat-box">You: ' + message.text + '<br><span>' + message.time + "</span></span></p><br>");
         //  $("#chat-area").append('<p id="chat-text" style="text-align: right"><span id="ind-chat-box">' + message.from + ": " + message.text + message.time + "</span></p>");
     }
     else {
@@ -108,7 +107,6 @@ function showGreeting(message) {
 
     var chatBox = document.getElementById("boot-card");
     chatBox.scrollTop = chatBox.scrollHeight - chatBox.clientHeight;
-    console.log("st::" + chatBox.scrollTop);
 
 }
 
