@@ -1,0 +1,89 @@
+#navrow{
+    background-image: linear-gradient(45deg, #434d8d, #700000);
+
+}
+
+body{
+    background-color: rgb(240, 240, 240) !important;
+}
+
+#chat-text{
+    font-size: 15px;
+}
+
+#chat-datetime{
+    font-size: 10px;
+}
+
+#boot-card{
+    background-color: black;
+    overflow-y: scroll;
+    height: 50vh;
+}
+
+
+
+.ind-chat-box span{
+    font-size: 10px;
+}
+#user-area li{
+    list-style: none;
+}
+
+#user-area li::before{
+    padding-right: 1em;
+    content: "\2022";
+    color: green;
+}
+
+#connect-disconnect{
+    right: 0;
+    /* float: right; */
+    position: absolute;
+    padding: 1em;
+}
+
+#title-text{
+    font-size: 25px;
+    font-style: italic;
+    letter-spacing: 0.2em;
+    position: absolute;
+    padding: 20px;
+    color: white;
+}
+
+.ind-chat-box{
+    padding: 0.5em;
+    border: 1px solid black;
+    border-radius: 1em;
+    margin-top: 5px;
+    display: inline-block;
+    text-align: left;
+    animation-name: init;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    background-color: white;
+}
+@keyframes init {
+    0% {
+        box-shadow: 0 0 5px rgb(253, 253, 253);
+    }
+
+    25%{
+        box-shadow: 0 0 10px rgb(255, 145, 145);
+    }
+
+    50% {
+        box-shadow: 0 0 15px red;
+    }
+
+    75%{
+        box-shadow: 0 0 10px rgb(255, 145, 145);
+    }
+
+    100%{
+        box-shadow: 0 0 5px rgb(255, 255, 255);
+    }
+}
+
+
