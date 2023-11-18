@@ -1,0 +1,16 @@
+package demo.chatservice.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Extra {
+    private String name;
+    private String action;
+    private String result;
+}
