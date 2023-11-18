@@ -4,8 +4,31 @@ console.log(uname);
 
 document.getElementById('name').setAttribute('value', uname);
 document.addEventListener('submit', clearInput);
-window.onload = connect;
 
+window.onload = connect;
+document.getElementById('message').addEventListener("focus", () => {
+    sendTyping(true);
+}, false);
+document.getElementById('message').addEventListener('keydown', () => {
+    sendTyping(true);
+}, false);
+document.getElementById('message').addEventListener("blur", () => {
+    sendTyping(false);
+}, false);
+document.getElementById('msg-form').addEventListener('submit', () => {
+    // document.getElementById('message').blur;
+    sendTyping(false);
+}, false);
+
+document.getElementById('disconnect').addEventListener('click', ()=>{
+    var btn = document.getElementById('send');
+    btn.classList.add('disabled');
+})
+
+document.getElementById('connect').addEventListener('click', ()=>{
+    const messageForm = document.getElementById('send');
+    messageForm.classList.remove('disabled');
+})
 const stompClient = new StompJs.Client({
     //brokerURL: 'ws://localhost:8080/chat'
     brokerURL: 'ws://localhost:8080/chat'
@@ -24,10 +47,21 @@ stompClient.onConnect = (frame) => {
     stompClient.subscribe('/topic/greetings', (greeting) => {
         showGreeting(JSON.parse(greeting.body));
     });
+
+    stompClient.subscribe('/topic/extras', (extra) => {
+        var obj = JSON.parse(extra.body);
+        if (obj.action == 'typing') {
+            showTyping(obj);
+        } else {
+            exitTyping();
+        }
+
+    });
 };
 let c = 1;
 function showConnectedUser(obj) {
     $('#user-area li').remove();
+    console.log(obj);
     for (let i = 0; i < obj.length; i++) {
         var user = obj[i];
         $('#user-area').append('<li id=' + user + '>' + user + '</li>');
@@ -95,13 +129,21 @@ function disconnect() {
 
 
 function showGreeting(message) {
+    var dt = new Date(message.time);
+    console.log(dt);
 
+    if (dt.getDate() == new Date().getDate()) {
+        dt = 'Today ' + dt.getHours() + ':' + dt.getMinutes();
+        console.log('today');
+    } else {
+        dt = dt.toDateString() + ' ' + dt.getHours + ':' + dt.getMinutes;
+    }
     if (message.from == uname) {
-        $("#boot-card").append('<p id="chat-text" style="text-align: right"><span class="ind-chat-box">You: ' + message.text + '<br><span>' + message.time + "</span></span></p><br>");
+        $("#boot-card").append('<p id="chat-text" style="text-align: right"><span class="ind-chat-box">You: ' + message.text + '<br><span>' + dt + "</span></span></p><br>");
         //  $("#chat-area").append('<p id="chat-text" style="text-align: right"><span id="ind-chat-box">' + message.from + ": " + message.text + message.time + "</span></p>");
     }
     else {
-        $("#boot-card").append('<p id="chat-text"><span class="ind-chat-box">' + message.from + ": " + message.text + '<br><span>' + message.time + "</span></span></p><br>");
+        $("#boot-card").append('<p id="chat-text"><span class="ind-chat-box">' + message.from + ": " + message.text + '<br><span>' + dt + "</span></span></p><br>");
         // $("#chat-area").append('<p id="chat-text"><span id="ind-chat-box">' + message.from + ": " + message.text + message.time + "</span></p>");
     }
 
@@ -113,10 +155,15 @@ function showGreeting(message) {
 function sendName() {
 
     var inputName = $('#name').val();
+    var message = $("#message").val();
+
+    if (message == null || message == '') {
+        return;
+    }
 
     body1 = {
         'from': $("#name").val(),
-        'text': $("#message").val(),
+        'text': message,
         'time': ' ',
         'messageType': 'message'
     };
@@ -140,6 +187,43 @@ function sendName() {
         });
         uname = inputName;
     }
+}
+
+function sendTyping(status) {
+    extra = {};
+    if (status == true) {
+        extra = {
+            'name': uname,
+            'action': 'typing',
+            'result': ''
+        }
+    }
+    else {
+        extra = {
+            'name': uname,
+            'action': 'not-typing',
+            'result': ''
+        }
+    }
+
+
+    stompClient.publish({
+        destination: "/app/extra",
+        body: JSON.stringify(extra)
+    })
+}
+
+function showTyping(extra) {
+    exitTyping();
+    if (document.getElementById('typing') == null) {
+
+        $("#boot-card").append('<h6 id="typing">' + extra.result + '</h6>');
+    }
+
+}
+
+function exitTyping() {
+    $("#boot-card #typing").remove();
 }
 
 function clearInput() {

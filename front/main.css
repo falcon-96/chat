@@ -25,6 +25,7 @@ body{
 
 .ind-chat-box span{
     font-size: 10px;
+    float: right;
 }
 #user-area li{
     list-style: none;
@@ -79,6 +80,13 @@ body{
 #chat-card-footer{
     background-color: black;
     color: white;
+}
+
+#typing{
+    color: white;
+    text-align: center;
+    font-style: italic;
+    font-weight: 100;
 }
 
 .ind-chat-box{
