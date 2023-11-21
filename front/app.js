@@ -60,11 +60,11 @@ stompClient.onConnect = (frame) => {
 };
 let c = 1;
 function showConnectedUser(obj) {
-    $('#user-area li').remove();
+    $('#user-area-ul li').remove();
     console.log(obj);
     for (let i = 0; i < obj.length; i++) {
         var user = obj[i];
-        $('#user-area').append('<li id=' + user + '>' + user + '</li>');
+        $('#user-area-ul').append('<li class="list-group-item" id=' + user + '>' + user + '</li>');
     }
 
 }
@@ -111,7 +111,7 @@ function sendConnectedUser() {
 }
 
 function disconnect() {
-    $('#user-area li').remove();
+    $('#user-area-ul').remove();
     body1 = {
         'username': uname,
         'connected': 0,
@@ -130,21 +130,17 @@ function disconnect() {
 
 function showGreeting(message) {
     var dt = new Date(message.time);
-    console.log(dt);
 
     if (dt.getDate() == new Date().getDate()) {
         dt = 'Today ' + dt.getHours() + ':' + dt.getMinutes();
-        console.log('today');
     } else {
         dt = dt.toDateString() + ' ' + dt.getHours + ':' + dt.getMinutes;
     }
     if (message.from == uname) {
         $("#boot-card").append('<p id="chat-text" style="text-align: right"><span class="ind-chat-box">You: ' + message.text + '<br><span>' + dt + "</span></span></p><br>");
-        //  $("#chat-area").append('<p id="chat-text" style="text-align: right"><span id="ind-chat-box">' + message.from + ": " + message.text + message.time + "</span></p>");
     }
     else {
         $("#boot-card").append('<p id="chat-text"><span class="ind-chat-box">' + message.from + ": " + message.text + '<br><span>' + dt + "</span></span></p><br>");
-        // $("#chat-area").append('<p id="chat-text"><span id="ind-chat-box">' + message.from + ": " + message.text + message.time + "</span></p>");
     }
 
     var chatBox = document.getElementById("boot-card");

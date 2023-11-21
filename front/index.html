@@ -33,7 +33,7 @@
         Javascript being enabled. Please enable Javascript and reload this page!
       </h2></noscript
     >
-    <div id="main-content" class="container">
+    <div id="main-content" class="container-fluid">
       <div class="row" id="navrow">
         <nav class="navbar">
           <h2 id="title-text">ARENA</h2>
@@ -85,7 +85,12 @@
           </div>
         </div>
         <div class="col flex-column" id="user-list">
-          <div class="column" id="user-area">Available:</div>
+          <div class="column" id="user-area">
+            <div class="card">
+              <div class="card-header">Available:</div>
+              <ul class="list-group" id="user-area-ul"></ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
