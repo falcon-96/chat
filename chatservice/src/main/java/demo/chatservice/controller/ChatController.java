@@ -31,7 +31,7 @@ public class ChatController {
     @MessageMapping("/users")
     @SendTo("/topic/users")
     public List<String> userStatus(User user) {
-        log.info("in::" + user);
+        //log.info("in::" + user);
         return service.handleUser(user);
     }
 
