@@ -23,11 +23,15 @@ document.getElementById('msg-form').addEventListener('submit', () => {
 document.getElementById('disconnect').addEventListener('click', () => {
     var btn = document.getElementById('send');//disable send button
     btn.classList.add('disabled');//disable send button
+    document.getElementById('connect-a').classList.remove('active');
+    document.getElementById('disconnect-a').classList.add('active');
 })
 
 document.getElementById('connect').addEventListener('click', () => {
     const messageForm = document.getElementById('send');//enable send button
     messageForm.classList.remove('disabled');//enable send button
+    document.getElementById('connect-a').classList.add('active');
+    document.getElementById('disconnect-a').classList.remove('active');
 })
 const stompClient = new StompJs.Client({
     //brokerURL: 'ws://localhost:8080/chat'
