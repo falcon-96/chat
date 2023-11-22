@@ -18,12 +18,36 @@
 
 
 #navrow{
-    background-image: linear-gradient(45deg, #434d8d, #700000);
+   /* background-image: linear-gradient(45deg, #434d8d, #700000);
+*/
+
 
 }
 
 body{
-    background-color: rgb(240, 240, 240) !important;
+    /*background-color: rgb(240, 240, 240) !important;*/
+    background-color: black !important;
+    background-size: 50px 50px;
+background-image:
+  linear-gradient(to right, grey 1px, transparent 1px),
+  linear-gradient(to bottom, grey 1px, transparent 1px);
+}
+
+#title-name-div{
+    left: 0;
+    display: flex;
+    position: absolute;
+}
+
+#title-name-div h2{
+    font-weight: 100;
+    color: white;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
 }
 
 #chat-text{
@@ -55,12 +79,28 @@ body{
     content: "\2022";
     color: green;
 }
-
+/*
 #connect-disconnect{
     right: 0;
     /* float: right; */
+    /*
     position: absolute;
     padding: 1em;
+}
+*/
+
+#connect-disconnect{
+    display: flex;
+}
+
+#connect-disconnect button{
+    border: 2px solid transparent;
+    background-color: transparent;
+}
+
+#card-header-id{
+    display: flex;
+    justify-content: space-between;
 }
 
 #user-list{
