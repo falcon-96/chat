@@ -20,14 +20,14 @@ document.getElementById('msg-form').addEventListener('submit', () => {
     sendTyping(false);
 }, false);
 
-document.getElementById('disconnect').addEventListener('click', ()=>{
-    var btn = document.getElementById('send');
-    btn.classList.add('disabled');
+document.getElementById('disconnect').addEventListener('click', () => {
+    var btn = document.getElementById('send');//disable send button
+    btn.classList.add('disabled');//disable send button
 })
 
-document.getElementById('connect').addEventListener('click', ()=>{
-    const messageForm = document.getElementById('send');
-    messageForm.classList.remove('disabled');
+document.getElementById('connect').addEventListener('click', () => {
+    const messageForm = document.getElementById('send');//enable send button
+    messageForm.classList.remove('disabled');//enable send button
 })
 const stompClient = new StompJs.Client({
     //brokerURL: 'ws://localhost:8080/chat'
@@ -111,7 +111,7 @@ function sendConnectedUser() {
 }
 
 function disconnect() {
-    $('#user-area-ul').remove();
+    document.getElementById('user-area-ul').innerHTML='';
     body1 = {
         'username': uname,
         'connected': 0,
