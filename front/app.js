@@ -20,21 +20,35 @@ document.getElementById('msg-form').addEventListener('submit', () => {
     sendTyping(false);
 }, false);
 
-document.getElementById('disconnect').addEventListener('click', () => {
-    var btn = document.getElementById('send');//disable send button
-    btn.classList.add('disabled');//disable send button
-    document.getElementById('connect-a').classList.remove('active');
-    document.getElementById('disconnect-a').classList.add('active');
-})
+document.getElementById('disconnect').addEventListener('click', initDisconnect);
 
-document.getElementById('connect').addEventListener('click', () => {
+document.getElementById('connect').addEventListener('click', initConnect);
+
+function initConnect() {
     const messageForm = document.getElementById('send');//enable send button
     messageForm.classList.remove('disabled');//enable send button
-    document.getElementById('connect-a').classList.add('active');
-    document.getElementById('disconnect-a').classList.remove('active');
-})
+    var connect_link = document.getElementById('connect-a');
+    var disconnect_link = document.getElementById('disconnect-a');
+    connect_link.classList.add('active');
+    disconnect_link.classList.remove('active');
+
+    connect_link.style.cssText += 'border-style: solid none none none;border-color: green';
+    disconnect_link.style.cssText += 'border-style:none;border-color: transparent;';
+
+}
+
+function initDisconnect() {
+    var btn = document.getElementById('send');//disable send button
+    btn.classList.add('disabled');//disable send button
+    var connect_link = document.getElementById('connect-a');
+    var disconnect_link = document.getElementById('disconnect-a');
+    connect_link.classList.remove('active');
+    disconnect_link.classList.add('active');
+
+    connect_link.style.cssText += 'border-style:none;border-color: transparent';
+    disconnect_link.style.cssText += 'border-style: solid none none none;border-color: red;';
+}
 const stompClient = new StompJs.Client({
-    //brokerURL: 'ws://localhost:8080/chat'
     brokerURL: 'ws://localhost:8080/chat'
 });
 
@@ -86,6 +100,7 @@ function setConnected(connected) {
     $("#disconnect").prop("disabled", !connected);
     if (connected) {
         $("#conversation").show();
+        initConnect;
     }
     else {
         $("#conversation").hide();
@@ -95,7 +110,6 @@ function setConnected(connected) {
 
 function connect() {
     stompClient.activate();
-
     window.onbeforeunload = disconnect;
 }
 
@@ -115,7 +129,7 @@ function sendConnectedUser() {
 }
 
 function disconnect() {
-    document.getElementById('user-area-ul').innerHTML='';
+    document.getElementById('user-area-ul').innerHTML = '';
     body1 = {
         'username': uname,
         'connected': 0,

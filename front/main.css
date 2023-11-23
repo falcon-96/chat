@@ -89,6 +89,16 @@ background-image:
 }
 */
 
+#connect-a{
+    background: none;
+    color: white;
+}
+
+#disconnect-a{
+    background: none;
+    color: white;
+}
+
 #connect-disconnect{
     display: flex;
 }
@@ -99,6 +109,7 @@ background-image:
 }
 
 #card-header-id{
+    background-color: black;
     display: flex;
     justify-content: space-between;
 }
@@ -146,6 +157,21 @@ background-image:
     font-style: italic;
     font-weight: 100;
     bottom: 0;
+}
+
+#message {
+    background: none;
+    color: white;
+}
+
+#message::placeholder{
+    font-size: 20px;
+    color: rgb(7, 79, 7);
+}
+
+#name {
+    background: none;
+    color: white;
 }
 
 .ind-chat-box{
