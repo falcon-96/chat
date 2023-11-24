@@ -49,10 +49,15 @@ function initDisconnect() {
     disconnect_link.style.cssText += 'border-style: solid none none none;border-color: red;';
 }
 const stompClient = new StompJs.Client({
-    brokerURL: 'ws://localhost:8080/chat'
+    //brokerURL: 'ws://localhost:8080/chat'
+    brokerURL: 'ws://192.168.1.5:8080/chat'
 });
 
 stompClient.onConnect = (frame) => {
+
+    document.getElementById('connect-a').style.cssText += 'border-style: solid none none none;border-color: green;';
+    document.getElementById('disconnect-a').style.cssText = 'border-style:none;border-color: transparent';
+
     console.log("in");
     setConnected(true);
     sendConnectedUser();
@@ -88,6 +93,10 @@ function showConnectedUser(obj) {
 }
 stompClient.onWebSocketError = (error) => {
     console.error('Error with websocket', error);
+
+    document.getElementById('connect-a').style.cssText += 'border-style:none;border-color: transparent';
+    document.getElementById('disconnect-a').style.cssText += 'border-style: solid none none none;border-color: red;';
+
 };
 
 stompClient.onStompError = (frame) => {
@@ -147,6 +156,7 @@ function disconnect() {
 
 
 function showGreeting(message) {
+    console.log("user msg:"+message.from);
     var dt = new Date(message.time);
 
     if (dt.getDate() == new Date().getDate()) {
@@ -155,10 +165,16 @@ function showGreeting(message) {
         dt = dt.toDateString() + ' ' + dt.getHours + ':' + dt.getMinutes;
     }
     if (message.from == uname) {
-        $("#boot-card").append('<p id="chat-text" style="text-align: right"><span class="ind-chat-box">You: ' + message.text + '<br><span>' + dt + "</span></span></p><br>");
+        $("#boot-card").append('<p id="chat-text-own" style="text-align: right"><span class="author">You</span><br><span class="ind-chat-box" id="my-msg"><span id="message-area">' + message.text + '</span><br><span>' + dt + "</span></span></p><br>");
     }
     else {
-        $("#boot-card").append('<p id="chat-text"><span class="ind-chat-box">' + message.from + ": " + message.text + '<br><span>' + dt + "</span></span></p><br>");
+        $("#boot-card")
+            .append('<p id="chat-text-others"><span class="ind-chat-box" id="others-msg"><span id="message-area">'
+                + message.text
+                + '</span><br><span>'
+                + dt
+                + '</span></span><span class="author">'
+                + message.from + '</span></p><br>');
     }
 
     var chatBox = document.getElementById("boot-card");
@@ -167,7 +183,7 @@ function showGreeting(message) {
 }
 
 function sendName() {
-
+    document.getElementById('message').blur();
     var inputName = $('#name').val();
     var message = $("#message").val();
 
