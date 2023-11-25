@@ -48,8 +48,7 @@ function initDisconnect() {
     disconnect_link.style.cssText += 'border-style: solid none none none;border-color: red;';
 }
 const stompClient = new StompJs.Client({
-    //brokerURL: 'ws://localhost:8080/chat'
-    brokerURL: 'ws://192.168.1.5:8080/chat'
+    brokerURL: 'ws://localhost:8080/chat'
 });
 
 stompClient.onConnect = (frame) => {
