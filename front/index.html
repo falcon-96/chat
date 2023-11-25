@@ -47,16 +47,40 @@
           <!--<h2 id="title-text">ARENA</h2>-->
         </nav>
       </div>
-      <div class="row">
-        <div class="col-10">
-          <div class="card">
+      <div class="row" id="chat-main-row">
+        <div class="col">
+          <div class="card" id="chat-main-card">
             <div class="card-header" id="card-header-id">
               <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                  <a
+                    class="nav-link active"
+                    id="option-tab"
+                    href="#options-menu"
+                    data-bs-toggle="collapse"
+                    role="button"
+                    aria-expanded="true"
+                    aria-controls="options-menu"
+                    data-bs-target="#options-menu"
+                  >
+                    |||
+                  </a>
+                </li>
+
                 <li class="nav-item">
                   <a class="nav-link active" id="user-tabs" href="#"> ALL </a>
                 </li>
               </ul>
               <ul class="nav nav-tabs card-header-tabs">
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="connection-switch"
+                  />
+                </div>
+
                 <form class="disabledbutton" id="connect-disconnect">
                   <li class="nav-item">
                     <a class="nav-link active" href="#" id="connect-a"
@@ -73,7 +97,15 @@
                 </form>
               </ul>
             </div>
-            <div class="card-body" id="boot-card"></div>
+
+            <div class="card-body" id="boot-card">
+              <div class="collapse" id="options-menu">
+                <div class="card" id="av-users-card">
+                  <div class="card-header">Available:</div>
+                  <ul class="list-group" id="user-area-ul"></ul>
+                </div>
+              </div>
+            </div>
             <div class="card-footer" id="chat-card-footer">
               <div class="row">
                 <form class="form-group row" id="msg-form">
@@ -104,6 +136,7 @@
             </div>
           </div>
         </div>
+        <!--
         <div class="col flex-column" id="user-list">
           <div class="column" id="user-area">
             <div class="card">
@@ -112,6 +145,7 @@
             </div>
           </div>
         </div>
+-->
       </div>
     </div>
     <script src="/app.js"></script>

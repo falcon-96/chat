@@ -1,7 +1,6 @@
 var uname = prompt('Enter your name:');
 console.log(uname);
 //$('#name').val = uname;
-
 document.getElementById('name').setAttribute('value', uname);
 document.addEventListener('submit', clearInput);
 

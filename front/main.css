@@ -20,6 +20,12 @@
     background-color: #3f2a2a;
 }
 
+@media only screen and (max-width: 360px) {
+    #chat-main-row{
+        bottom: 0;
+    }    
+}
+
 
 #navrow{
    /* background-image: linear-gradient(45deg, #434d8d, #700000);
@@ -37,6 +43,17 @@ background-image:
   linear-gradient(to bottom, grey 1px, transparent 1px);
 }
 
+#main-content{
+    height: 100vh;
+}
+
+#chat-main-row{
+    position: absolute;
+    width: 100vw;
+}
+
+
+
 #title-name-div{
     left: 0;
     display: flex;
@@ -52,6 +69,10 @@ background-image:
     justify-content: center;
     align-content: center;
     flex-wrap: wrap;
+}
+
+#chat-main-card{
+    width: 100%;
 }
 
 #user-tabs{
@@ -154,6 +175,8 @@ background-image:
 #send{
     width: 100%;
     color: white;
+    overflow: hidden;
+    white-space: nowrap;
 
     letter-spacing: .2em;
     font-size: 15px;
@@ -229,6 +252,20 @@ background-image:
     border-style: none solid none none;
     border-color: rgb(0, 100, 128);
     float: left;
+}
+
+#option-tab{
+    transform: rotate(90deg);
+}
+
+#options-menu{
+    position: fixed;
+    width: 100%;
+    color: white;
+}
+
+#av-users-card{
+    width: 40%;
 }
 @keyframes init {
     0% {
