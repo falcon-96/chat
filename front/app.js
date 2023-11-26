@@ -19,43 +19,20 @@ document.getElementById('msg-form').addEventListener('submit', () => {
     sendTyping(false);
 }, false);
 
-document.getElementById('disconnect').addEventListener('click', initDisconnect);
-
-document.getElementById('connect').addEventListener('click', initConnect);
-
-function initConnect() {
-    const messageForm = document.getElementById('send');//enable send button
-    messageForm.classList.remove('disabled');//enable send button
-    var connect_link = document.getElementById('connect-a');
-    var disconnect_link = document.getElementById('disconnect-a');
-    connect_link.classList.add('active');
-    disconnect_link.classList.remove('active');
-
-    connect_link.style.cssText += 'border-style: solid none none none;border-color: green';
-    disconnect_link.style.cssText += 'border-style:none;border-color: transparent;';
-
-}
-
-function initDisconnect() {
-    var btn = document.getElementById('send');//disable send button
-    btn.classList.add('disabled');//disable send button
-    var connect_link = document.getElementById('connect-a');
-    var disconnect_link = document.getElementById('disconnect-a');
-    connect_link.classList.remove('active');
-    disconnect_link.classList.add('active');
-
-    connect_link.style.cssText += 'border-style:none;border-color: transparent';
-    disconnect_link.style.cssText += 'border-style: solid none none none;border-color: red;';
-}
+document.getElementById('connection-switch').addEventListener('click', () => {
+    var switch_btn = document.getElementById('connection-switch');
+    if (switch_btn.checked) {
+        connect();
+    } else {
+        disconnect();
+    }
+});
 const stompClient = new StompJs.Client({
     brokerURL: 'ws://localhost:8080/chat'
 });
 
 stompClient.onConnect = (frame) => {
-
-    document.getElementById('connect-a').style.cssText += 'border-style: solid none none none;border-color: green;';
-    document.getElementById('disconnect-a').style.cssText = 'border-style:none;border-color: transparent';
-
+    $('#status-result').empty().append('Online');
     console.log("in");
     setConnected(true);
     sendConnectedUser();
@@ -91,10 +68,7 @@ function showConnectedUser(obj) {
 }
 stompClient.onWebSocketError = (error) => {
     console.error('Error with websocket', error);
-
-    document.getElementById('connect-a').style.cssText += 'border-style:none;border-color: transparent';
-    document.getElementById('disconnect-a').style.cssText += 'border-style: solid none none none;border-color: red;';
-
+    $('#status-result').empty().append('Offline');
 };
 
 stompClient.onStompError = (frame) => {
@@ -117,6 +91,7 @@ function setConnected(connected) {
 
 function connect() {
     stompClient.activate();
+    document.getElementById('connection-switch').checked = true;
     window.onbeforeunload = disconnect;
 }
 
@@ -136,6 +111,8 @@ function sendConnectedUser() {
 }
 
 function disconnect() {
+    document.getElementById('connection-switch').checked = false;
+    $('#status-result').empty().append('Offline');
     document.getElementById('user-area-ul').innerHTML = '';
     body1 = {
         'username': uname,
@@ -154,7 +131,7 @@ function disconnect() {
 
 
 function showGreeting(message) {
-    console.log("user msg:"+message.from);
+    console.log("user msg:" + message.from);
     var dt = new Date(message.time);
 
     if (dt.getDate() == new Date().getDate()) {

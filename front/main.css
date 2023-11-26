@@ -267,6 +267,18 @@ background-image:
 #av-users-card{
     width: 40%;
 }
+#connection-switch{
+    font-size: 15px;
+}
+#connection-switch:checked{
+    background-color: green;
+}
+
+#status{
+    color: white;
+    margin-right: 2em;
+    margin-top: 1em;
+}
 @keyframes init {
     0% {
         box-shadow: -3px 0 5px -5px rgb(163, 83, 83);
