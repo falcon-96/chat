@@ -1,5 +1,4 @@
 var uname = prompt('Enter your name:');
-console.log(uname);
 //$('#name').val = uname;
 document.getElementById('name').setAttribute('value', uname);
 document.addEventListener('submit', clearInput);
@@ -37,7 +36,6 @@ stompClient.onConnect = (frame) => {
     setConnected(true);
     sendConnectedUser();
     stompClient.subscribe('/topic/users', (users) => {
-        console.log("topic users");
         var obj = JSON.parse(users.body);
         showConnectedUser(obj);
     });
@@ -50,8 +48,10 @@ stompClient.onConnect = (frame) => {
         var obj = JSON.parse(extra.body);
         if (obj.action == 'typing') {
             showTyping(obj);
-        } else {
+        } else if (obj.action == 'not-typing') {
             exitTyping();
+        } else {
+            showNotification(obj);
         }
 
     });
@@ -59,7 +59,6 @@ stompClient.onConnect = (frame) => {
 let c = 1;
 function showConnectedUser(obj) {
     $('#user-area-ul li').remove();
-    console.log(obj);
     for (let i = 0; i < obj.length; i++) {
         var user = obj[i];
         $('#user-area-ul').append('<li class="list-group-item" id=' + user + '>' + user + '</li>');
@@ -81,7 +80,7 @@ function setConnected(connected) {
     $("#disconnect").prop("disabled", !connected);
     if (connected) {
         $("#conversation").show();
-        initConnect;
+        // initConnect;
     }
     else {
         $("#conversation").hide();
@@ -124,6 +123,8 @@ function disconnect() {
         destination: "/app/users",
         body: JSON.stringify(body1)
     });
+
+
     stompClient.deactivate();
     setConnected(false);
     console.log("Disconnected");
@@ -131,7 +132,6 @@ function disconnect() {
 
 
 function showGreeting(message) {
-    console.log("user msg:" + message.from);
     var dt = new Date(message.time);
 
     if (dt.getDate() == new Date().getDate()) {
@@ -155,6 +155,14 @@ function showGreeting(message) {
     var chatBox = document.getElementById("boot-card");
     chatBox.scrollTop = chatBox.scrollHeight - chatBox.clientHeight;
 
+}
+
+function showNotification(notification) {
+    $('#notification').empty().append('<p>' + notification.result + '</p>');
+    $('#notification').fadeOut(2000, ()=>{
+        $('#notification').empty();
+        $('#notification').show();
+    });
 }
 
 function sendName() {
@@ -185,7 +193,6 @@ function sendName() {
             'messageType': 'user',
             'original': uname
         };
-        console.log(user);
         stompClient.publish({
             destination: "/app/users",
             body: JSON.stringify(user)
