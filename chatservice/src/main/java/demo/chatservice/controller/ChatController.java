@@ -15,6 +15,7 @@ import java.util.List;
 @Slf4j
 public class ChatController {
 
+
     private final ChatAppService service;
 
     public ChatController(ChatAppService service) {
@@ -28,10 +29,10 @@ public class ChatController {
         return service.send(message);
     }
 
+
     @MessageMapping("/users")
     @SendTo("/topic/users")
     public List<String> userStatus(User user) {
-        //log.info("in::" + user);
         return service.handleUser(user);
     }
 

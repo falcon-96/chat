@@ -5,6 +5,7 @@ import demo.chatservice.model.Message;
 import demo.chatservice.model.User;
 import demo.chatservice.model.UserList;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,10 +16,12 @@ import java.util.List;
 @Slf4j
 public class ChatAppService {
 
+    private final SimpMessagingTemplate template;
     private UserList userList;
 
-    public ChatAppService(UserList userList) {
+    public ChatAppService(UserList userList, SimpMessagingTemplate template) {
         this.userList = userList;
+        this.template = template;
     }
 
 
@@ -40,8 +43,10 @@ public class ChatAppService {
                 userList.getUsers().remove(user.getOriginal());
                 userList.getUsers().add(user.getUsername());
                 log.info(user.getOriginal() + " changed name to:" + user.getUsername());
+                publishNotification(user.getOriginal(), "change-name", user.getUsername());
             } else {
                 userList.getUsers().add(user.getUsername());
+                publishNotification(user.getUsername(), "connect", "");
                 log.info(user.getUsername() + " Connected!");
             }
 
@@ -52,6 +57,8 @@ public class ChatAppService {
                 }
             }
             userList.getUsers().remove(user.getUsername());
+            template.convertAndSend("/topic/extras",
+                    processExtra(new Extra(user.getUsername(), "disconnect", "")));
             log.info(user.getUsername() + " Disconnected!");
         }
 
@@ -60,9 +67,35 @@ public class ChatAppService {
     }
 
     public Extra processExtra(Extra extra) {
+        /*
         if (extra.getAction().equals("typing")) {
             extra.setResult(extra.getName() + " is typing...");
-            return extra;
+        }
+
+        if (extra.getAction().equals("change-name")) {
+            extra.setResult(extra.getName() + " changed name to " + extra.getResult());
+        }
+
+        if (extra.getAction().equals("disconnect")) {
+            extra.setResult((extra.getName() + " left the arena."));
+        }
+*/
+        switch (extra.getAction()) {
+            case "typing":
+                extra.setResult(extra.getName() + " is typing...");
+                break;
+            case "change-name":
+                extra.setResult(extra.getName() + " changed name to " + extra.getResult());
+                break;
+            case "connect":
+                extra.setResult((extra.getName() + " joined the arena."));
+                break;
+            case "disconnect":
+                extra.setResult((extra.getName() + " left the arena."));
+                break;
+            default:
+                log.error("Invalid or Unsupported action");
+                break;
         }
         return extra;
     }
@@ -73,5 +106,10 @@ public class ChatAppService {
         message = message.replace(">", "&gt;");
 
         return message;
+    }
+
+    private void publishNotification(String username, String action, String result) {
+        template.convertAndSend("/topic/extras",
+                processExtra(new Extra(username, action, result)));
     }
 }
