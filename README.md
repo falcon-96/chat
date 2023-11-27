@@ -17,3 +17,6 @@ Steps to run:
 # Features
 1. Chat with All using the application
 2. Shows the user typing
+
+# Demo
+<img src="glimpse1.gif" width="768">
