@@ -67,19 +67,6 @@ public class ChatAppService {
     }
 
     public Extra processExtra(Extra extra) {
-        /*
-        if (extra.getAction().equals("typing")) {
-            extra.setResult(extra.getName() + " is typing...");
-        }
-
-        if (extra.getAction().equals("change-name")) {
-            extra.setResult(extra.getName() + " changed name to " + extra.getResult());
-        }
-
-        if (extra.getAction().equals("disconnect")) {
-            extra.setResult((extra.getName() + " left the arena."));
-        }
-*/
         switch (extra.getAction()) {
             case "typing":
                 extra.setResult(extra.getName() + " is typing...");

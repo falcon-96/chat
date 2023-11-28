@@ -158,11 +158,12 @@ function showGreeting(message) {
 }
 
 function showNotification(notification) {
-    $('#notification').empty().append('<p>' + notification.result + '</p>');
-    $('#notification').fadeOut(2000, ()=>{
-        $('#notification').empty();
-        $('#notification').show();
-    });
+    $('#notification').empty().show().append('<p>' + notification.result + '</p>');
+
+        $('#notification')
+        .fadeOut(2000);
+
+
 }
 
 function sendName() {
